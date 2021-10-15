@@ -1,0 +1,55 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_film
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from film'   
+    OUTPUTSCHEMA (
+        film_id = 'film_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        title = 'title' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='255')  NOT SORTABLE NOT UPDATEABLE,
+        description = 'description' :'java.lang.String' (sourcetypename='TEXT', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE,
+        release_year = 'release_year' :'java.lang.String' (sourcetypename='YEAR', sourcetypeid='0', sourcetypedecimals='0', sourcetypesize='4')  NOT SORTABLE NOT UPDATEABLE,
+        language_id = 'language_id' :'java.lang.Byte' (sourcetypename='TINYINT', sourcetypeid='-6', sourcetypedecimals='0', sourcetypesize='3')  NOT SORTABLE NOT UPDATEABLE,
+        original_language_id = 'original_language_id' :'java.lang.Byte' (sourcetypename='TINYINT', sourcetypeid='-6', sourcetypedecimals='0', sourcetypesize='3')  NOT SORTABLE NOT UPDATEABLE,
+        rental_duration = 'rental_duration' :'java.lang.Byte' (sourcetypename='TINYINT', sourcetypeid='-6', sourcetypedecimals='0', sourcetypesize='3')  NOT SORTABLE NOT UPDATEABLE,
+        rental_rate = 'rental_rate' :'java.lang.Double' (sourcetypename='DECIMAL', sourcetypeid='3', sourcetypedecimals='2', sourcetypesize='4')  NOT SORTABLE NOT UPDATEABLE,
+        length = 'length' :'java.lang.Short' (sourcetypename='SMALLINT', sourcetypeid='5', sourcetypedecimals='0', sourcetypesize='5')  NOT SORTABLE NOT UPDATEABLE,
+        replacement_cost = 'replacement_cost' :'java.lang.Double' (sourcetypename='DECIMAL', sourcetypeid='3', sourcetypedecimals='2', sourcetypesize='5')  NOT SORTABLE NOT UPDATEABLE,
+        rating = 'rating' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='6')  NOT SORTABLE NOT UPDATEABLE,
+        special_features = 'special_features' :'java.lang.String' (sourcetypename='TEXT', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_film I18N us_pst (
+        film_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        title:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '255'),
+        description:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '0'),
+        release_year:text (sourcetypeid = '0', sourcetypedecimals = '0', sourcetypesize = '4'),
+        language_id:int (sourcetypeid = '-6', sourcetypedecimals = '0', sourcetypesize = '3'),
+        original_language_id:int (sourcetypeid = '-6', sourcetypedecimals = '0', sourcetypesize = '3'),
+        rental_duration:int (sourcetypeid = '-6', sourcetypedecimals = '0', sourcetypesize = '3'),
+        rental_rate:double (sourcetypeid = '3', sourcetypedecimals = '2', sourcetypesize = '4'),
+        length:int (sourcetypeid = '5', sourcetypedecimals = '0', sourcetypesize = '5'),
+        replacement_cost:double (sourcetypeid = '3', sourcetypedecimals = '2', sourcetypesize = '5'),
+        rating:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '6'),
+        special_features:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '0')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_film(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD film_id NOS ZERO ()
+             ADD title NOS ZERO ()
+             ADD description NOS ZERO ()
+             ADD release_year NOS ZERO ()
+             ADD language_id NOS ZERO ()
+             ADD original_language_id NOS ZERO ()
+             ADD rental_duration NOS ZERO ()
+             ADD rental_rate NOS ZERO ()
+             ADD length NOS ZERO ()
+             ADD replacement_cost NOS ZERO ()
+             ADD rating NOS ZERO ()
+             ADD special_features NOS ZERO ()
+        )
+        OUTPUTLIST (description, film_id, language_id, length, original_language_id, rating, release_year, rental_duration, rental_rate, replacement_cost, special_features, title
+        )
+        WRAPPER (jdbc sakila_film)
+    );
+

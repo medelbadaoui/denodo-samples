@@ -1,0 +1,28 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_store
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from store'   
+    OUTPUTSCHEMA (
+        store_id = 'store_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        manager_staff_id = 'manager_staff_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE,
+        address_id = 'address_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_store I18N us_pst (
+        store_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        manager_staff_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        address_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_store(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD store_id NOS ZERO ()
+             ADD manager_staff_id NOS ZERO ()
+             ADD address_id NOS ZERO ()
+        )
+        OUTPUTLIST (address_id, manager_staff_id, store_id
+        )
+        WRAPPER (jdbc sakila_store)
+    );
+

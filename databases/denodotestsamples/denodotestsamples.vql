@@ -1,0 +1,5 @@
+﻿CREATE OR REPLACE DATABASE denodotestsamples 'Virtual DataBase supporting the Denodo Testing Tool sample test sets';
+
+ALTER DATABASE denodotestsamples
+  CHARSET DEFAULT;
+

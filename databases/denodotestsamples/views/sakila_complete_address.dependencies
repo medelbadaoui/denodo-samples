@@ -1,0 +1,4 @@
+﻿/databases/denodotestsamples/datasources/jdbc/sakila.vql
+/databases/denodotestsamples/views/sakila_address.vql
+/databases/denodotestsamples/views/sakila_city.vql
+/databases/denodotestsamples/views/sakila_country.vql

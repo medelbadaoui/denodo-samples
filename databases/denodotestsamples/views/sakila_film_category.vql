@@ -1,0 +1,25 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_film_category
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from film_category'   
+    OUTPUTSCHEMA (
+        film_id = 'film_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE,
+        category_id = 'category_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_film_category I18N us_pst (
+        film_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        category_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_film_category(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD film_id NOS ZERO ()
+             ADD category_id NOS ZERO ()
+        )
+        OUTPUTLIST (category_id, film_id
+        )
+        WRAPPER (jdbc sakila_film_category)
+    );
+

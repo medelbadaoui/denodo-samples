@@ -1,0 +1,40 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_address
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from address'   
+    OUTPUTSCHEMA (
+        address_id = 'address_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        address = 'address' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT SORTABLE NOT UPDATEABLE,
+        address2 = 'address2' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT SORTABLE NOT UPDATEABLE,
+        district = 'district' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='20')  NOT SORTABLE NOT UPDATEABLE,
+        city_id = 'city_id' :'java.lang.Short' (sourcetypename='SMALLINT', sourcetypeid='5', sourcetypedecimals='0', sourcetypesize='5')  NOT SORTABLE NOT UPDATEABLE,
+        postal_code = 'postal_code' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='10')  NOT SORTABLE NOT UPDATEABLE,
+        phone = 'phone' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='20')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_address I18N us_pst (
+        address_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        address:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50'),
+        address2:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50'),
+        district:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '20'),
+        city_id:int (sourcetypeid = '5', sourcetypedecimals = '0', sourcetypesize = '5'),
+        postal_code:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '10'),
+        phone:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '20')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_address(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD address_id NOS ZERO ()
+             ADD address NOS ZERO ()
+             ADD address2 NOS ZERO ()
+             ADD district NOS ZERO ()
+             ADD city_id NOS ZERO ()
+             ADD postal_code NOS ZERO ()
+             ADD phone NOS ZERO ()
+        )
+        OUTPUTLIST (address, address2, address_id, city_id, district, phone, postal_code
+        )
+        WRAPPER (jdbc sakila_address)
+    );
+

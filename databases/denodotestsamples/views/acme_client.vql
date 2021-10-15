@@ -1,0 +1,37 @@
+﻿CREATE OR REPLACE WRAPPER JDBC acme_client
+    DATASOURCENAME=acme_crm
+    SQLSENTENCE='select * from client'   
+    OUTPUTSCHEMA (
+        client_id = 'client_id' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        name = 'name' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='100')  NOT SORTABLE NOT UPDATEABLE,
+        surname = 'surname' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='100')  NOT SORTABLE NOT UPDATEABLE,
+        client_type = 'client_type' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='2')  NOT SORTABLE NOT UPDATEABLE,
+        company_code = 'company_code' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT SORTABLE NOT UPDATEABLE,
+        ssn = 'ssn' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='45')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE acme_client I18N us_pst (
+        client_id:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50'),
+        name:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '100'),
+        surname:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '100'),
+        client_type:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '2'),
+        company_code:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50'),
+        ssn:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '45')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD acme_client(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD client_id NOS ZERO ()
+             ADD name NOS ZERO ()
+             ADD surname NOS ZERO ()
+             ADD client_type NOS ZERO ()
+             ADD company_code NOS ZERO ()
+             ADD ssn NOS ZERO ()
+        )
+        OUTPUTLIST (client_id, client_type, company_code, name, ssn, surname
+        )
+        WRAPPER (jdbc acme_client)
+    );
+

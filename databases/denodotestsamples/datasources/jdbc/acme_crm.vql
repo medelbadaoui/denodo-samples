@@ -1,0 +1,28 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE DATASOURCE JDBC acme_crm
+    DRIVERCLASSNAME = 'org.sqlite.JDBC'
+    DATABASEURI = '${databases.denodotestsamples.datasources.jdbc.acme_crm.DATABASEURI}'
+    USERNAME = '${databases.denodotestsamples.datasources.jdbc.acme_crm.USERNAME}'
+    USERPASSWORD = ''
+    CLASSPATH = ''
+    DATABASENAME = 'SQLite'
+    DATABASEVERSION = ''
+    FETCHSIZE = 1000
+    VALIDATIONQUERY = ''
+    INITIALSIZE = 4
+    MAXIDLE = -1
+    MINIDLE = 0
+    MAXACTIVE = 20
+    EXHAUSTEDACTION = 1
+    TESTONBORROW = false
+    TESTONRETURN = false
+    TESTWHILEIDLE = false
+    TIMEBETWEENEVICTION = -1
+    NUMTESTPEREVICTION = 3
+    MINEVICTABLETIME = 1800000
+    POOLPREPAREDSTATEMENTS = false
+    MAXOPENPREPAREDSTATEMENTS = -1
+    DATA_LOAD_CONFIGURATION (
+        BATCHINSERTSIZE = 200
+    );
+

@@ -1,0 +1,28 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_city
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from city'   
+    OUTPUTSCHEMA (
+        city_id = 'city_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        city = 'city' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT SORTABLE NOT UPDATEABLE,
+        country_id = 'country_id' :'java.lang.Short' (sourcetypename='SMALLINT', sourcetypeid='5', sourcetypedecimals='0', sourcetypesize='5')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_city I18N us_pst (
+        city_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        city:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50'),
+        country_id:int (sourcetypeid = '5', sourcetypedecimals = '0', sourcetypesize = '5')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_city(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD city_id NOS ZERO ()
+             ADD city NOS ZERO ()
+             ADD country_id NOS ZERO ()
+        )
+        OUTPUTLIST (city, city_id, country_id
+        )
+        WRAPPER (jdbc sakila_city)
+    );
+

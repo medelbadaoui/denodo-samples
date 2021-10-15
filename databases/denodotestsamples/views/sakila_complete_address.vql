@@ -1,0 +1,5 @@
+﻿CREATE OR REPLACE VIEW sakila_complete_address AS SELECT sakila_address.address_id AS address_id, sakila_address.address AS address, sakila_address.address2 AS address2, sakila_address.district AS district, sakila_address.postal_code AS postal_code, sakila_address.phone AS phone, sakila_address.city_id AS city_id, sakila_city.city AS city, sakila_city.country_id AS country_id, sakila_country.country AS country FROM (sakila_address AS sakila_address INNER JOIN sakila_city AS sakila_city ON sakila_address.city_id = sakila_city.city_id ) INNER JOIN sakila_country AS sakila_country ON sakila_city.country_id = sakila_country.country_id ;
+
+ALTER VIEW sakila_complete_address
+ LAYOUT (sakila_address = [20, 20, 200, 187], sakila_city = [280, 80, 200, 107], sakila_country = [540, 80, 200, 87]);
+

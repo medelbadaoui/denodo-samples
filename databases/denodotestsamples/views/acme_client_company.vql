@@ -1,0 +1,25 @@
+﻿CREATE OR REPLACE WRAPPER JDBC acme_client_company
+    DATASOURCENAME=acme_crm
+    SQLSENTENCE='select * from client_company'   
+    OUTPUTSCHEMA (
+        client_id = 'client_id' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        company_code = 'company_code' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT NULL NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE acme_client_company I18N us_pst (
+        client_id:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50'),
+        company_code:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD acme_client_company(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD client_id NOS ZERO ()
+             ADD company_code NOS ZERO ()
+        )
+        OUTPUTLIST (client_id, company_code
+        )
+        WRAPPER (jdbc acme_client_company)
+    );
+

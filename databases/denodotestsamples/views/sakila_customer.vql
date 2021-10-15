@@ -1,0 +1,40 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_customer
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from customer'   
+    OUTPUTSCHEMA (
+        customer_id = 'customer_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        store_id = 'store_id' :'java.lang.Byte' (sourcetypename='TINYINT', sourcetypeid='-6', sourcetypedecimals='0', sourcetypesize='3')  NOT SORTABLE NOT UPDATEABLE,
+        first_name = 'first_name' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='45')  NOT SORTABLE NOT UPDATEABLE,
+        last_name = 'last_name' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='45')  NOT SORTABLE NOT UPDATEABLE,
+        email = 'email' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT SORTABLE NOT UPDATEABLE,
+        address_id = 'address_id' :'java.lang.Short' (sourcetypename='SMALLINT', sourcetypeid='5', sourcetypedecimals='0', sourcetypesize='5')  NOT SORTABLE NOT UPDATEABLE,
+        active = 'active' :'java.lang.Byte' (sourcetypename='TINYINT', sourcetypeid='-6', sourcetypedecimals='0', sourcetypesize='1')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_customer I18N us_pst (
+        customer_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        store_id:int (sourcetypeid = '-6', sourcetypedecimals = '0', sourcetypesize = '3'),
+        first_name:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '45'),
+        last_name:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '45'),
+        email:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50'),
+        address_id:int (sourcetypeid = '5', sourcetypedecimals = '0', sourcetypesize = '5'),
+        active:int (sourcetypeid = '-6', sourcetypedecimals = '0', sourcetypesize = '1')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_customer(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD customer_id NOS ZERO ()
+             ADD store_id NOS ZERO ()
+             ADD first_name NOS ZERO ()
+             ADD last_name NOS ZERO ()
+             ADD email NOS ZERO ()
+             ADD address_id NOS ZERO ()
+             ADD active NOS ZERO ()
+        )
+        OUTPUTLIST (active, address_id, customer_id, email, first_name, last_name, store_id
+        )
+        WRAPPER (jdbc sakila_customer)
+    );
+

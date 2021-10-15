@@ -1,0 +1,40 @@
+﻿CREATE OR REPLACE WRAPPER JDBC acme_address
+    DATASOURCENAME=acme_crm
+    SQLSENTENCE='select * from address'   
+    OUTPUTSCHEMA (
+        client_identifier = 'client_identifier' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        street = 'street' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='100')  NOT SORTABLE NOT UPDATEABLE,
+        city = 'city' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='100')  NOT SORTABLE NOT UPDATEABLE,
+        zip = 'zip' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='100')  NOT SORTABLE NOT UPDATEABLE,
+        state = 'state' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='100')  NOT SORTABLE NOT UPDATEABLE,
+        primary_phone = 'primary_phone' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='100')  NOT SORTABLE NOT UPDATEABLE,
+        country = 'country' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='45')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE acme_address I18N us_pst (
+        client_identifier:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50'),
+        street:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '100'),
+        city:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '100'),
+        zip:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '100'),
+        state:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '100'),
+        primary_phone:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '100'),
+        country:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '45')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD acme_address(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD client_identifier NOS ZERO ()
+             ADD street NOS ZERO ()
+             ADD city NOS ZERO ()
+             ADD zip NOS ZERO ()
+             ADD state NOS ZERO ()
+             ADD primary_phone NOS ZERO ()
+             ADD country NOS ZERO ()
+        )
+        OUTPUTLIST (city, client_identifier, country, primary_phone, state, street, zip
+        )
+        WRAPPER (jdbc acme_address)
+    );
+

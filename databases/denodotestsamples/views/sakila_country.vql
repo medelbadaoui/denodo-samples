@@ -1,0 +1,25 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_country
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from country'   
+    OUTPUTSCHEMA (
+        country_id = 'country_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        country = 'country' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_country I18N us_pst (
+        country_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        country:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_country(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD country_id NOS ZERO ()
+             ADD country NOS ZERO ()
+        )
+        OUTPUTLIST (country, country_id
+        )
+        WRAPPER (jdbc sakila_country)
+    );
+

@@ -1,0 +1,49 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_staff
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from staff'   
+    OUTPUTSCHEMA (
+        staff_id = 'staff_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        first_name = 'first_name' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='45')  NOT SORTABLE NOT UPDATEABLE,
+        last_name = 'last_name' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='45')  NOT SORTABLE NOT UPDATEABLE,
+        address_id = 'address_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE,
+        picture = 'picture' :'java.sql.Blob' (sourcetypename='BLOB', sourcetypeid='2004', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE,
+        email = 'email' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='50')  NOT SORTABLE NOT UPDATEABLE,
+        store_id = 'store_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE,
+        active = 'active' :'java.lang.Byte' (sourcetypename='TINYINT', sourcetypeid='-6', sourcetypedecimals='0', sourcetypesize='1')  NOT SORTABLE NOT UPDATEABLE,
+        username = 'username' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='16')  NOT SORTABLE NOT UPDATEABLE,
+        password = 'password' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='40')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_staff I18N us_pst (
+        staff_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        first_name:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '45'),
+        last_name:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '45'),
+        address_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        picture:blob (sourcetypeid = '2004', sourcetypedecimals = '0', sourcetypesize = '0'),
+        email:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '50'),
+        store_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        active:int (sourcetypeid = '-6', sourcetypedecimals = '0', sourcetypesize = '1'),
+        username:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '16'),
+        password:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '40')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_staff(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD staff_id NOS ZERO ()
+             ADD first_name NOS ZERO ()
+             ADD last_name NOS ZERO ()
+             ADD address_id NOS ZERO ()
+             ADD picture NOS ZERO ()
+             ADD email NOS ZERO ()
+             ADD store_id NOS ZERO ()
+             ADD active NOS ZERO ()
+             ADD username NOS ZERO ()
+             ADD password NOS ZERO ()
+        )
+        OUTPUTLIST (active, address_id, email, first_name, last_name, password, picture, staff_id, store_id, username
+        )
+        WRAPPER (jdbc sakila_staff)
+    );
+

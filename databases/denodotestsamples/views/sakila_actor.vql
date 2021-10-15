@@ -1,0 +1,28 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_actor
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from actor'   
+    OUTPUTSCHEMA (
+        actor_id = 'actor_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        first_name = 'first_name' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='45')  NOT SORTABLE NOT UPDATEABLE,
+        last_name = 'last_name' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='45')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_actor I18N us_pst (
+        actor_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        first_name:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '45'),
+        last_name:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '45')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_actor(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD actor_id NOS ZERO ()
+             ADD first_name NOS ZERO ()
+             ADD last_name NOS ZERO ()
+        )
+        OUTPUTLIST (actor_id, first_name, last_name
+        )
+        WRAPPER (jdbc sakila_actor)
+    );
+

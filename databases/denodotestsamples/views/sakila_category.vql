@@ -1,0 +1,25 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_category
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from category'   
+    OUTPUTSCHEMA (
+        category_id = 'category_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        name = 'name' :'java.lang.String' (sourcetypename='VARCHAR', sourcetypeid='12', sourcetypedecimals='0', sourcetypesize='25')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_category I18N us_pst (
+        category_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        name:text (sourcetypeid = '12', sourcetypedecimals = '0', sourcetypesize = '25')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_category(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD category_id NOS ZERO ()
+             ADD name NOS ZERO ()
+        )
+        OUTPUTLIST (category_id, name
+        )
+        WRAPPER (jdbc sakila_category)
+    );
+

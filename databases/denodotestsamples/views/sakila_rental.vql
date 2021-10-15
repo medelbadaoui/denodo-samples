@@ -1,0 +1,31 @@
+﻿CREATE OR REPLACE WRAPPER JDBC sakila_rental
+    DATASOURCENAME=sakila
+    SQLSENTENCE='select * from rental'   
+    OUTPUTSCHEMA (
+        rental_id = 'rental_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT NULL NOT SORTABLE NOT UPDATEABLE,
+        inventory_id = 'inventory_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE,
+        customer_id = 'customer_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE,
+        staff_id = 'staff_id' :'java.lang.Integer' (sourcetypename='INTEGER', sourcetypeid='4', sourcetypedecimals='0', sourcetypesize='0')  NOT SORTABLE NOT UPDATEABLE
+    );
+
+CREATE OR REPLACE TABLE sakila_rental I18N us_pst (
+        rental_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        inventory_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        customer_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0'),
+        staff_id:int (sourcetypeid = '4', sourcetypedecimals = '0', sourcetypesize = '0')
+    )
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD sakila_rental(
+        I18N us_pst
+        CONSTRAINTS (
+             ADD rental_id NOS ZERO ()
+             ADD inventory_id NOS ZERO ()
+             ADD customer_id NOS ZERO ()
+             ADD staff_id NOS ZERO ()
+        )
+        OUTPUTLIST (customer_id, inventory_id, rental_id, staff_id
+        )
+        WRAPPER (jdbc sakila_rental)
+    );
+
