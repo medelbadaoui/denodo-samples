@@ -1,0 +1,5 @@
+﻿CREATE OR REPLACE VIEW check_check AS SELECT sakila_film_category.film_id AS film_id, sakila_film_category.category_id AS category_id FROM sakila_film_category;
+
+ALTER VIEW check_check
+ LAYOUT (sakila_film_category = [20, 20, 200, 65]);
+
