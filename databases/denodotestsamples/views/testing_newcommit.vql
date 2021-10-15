@@ -1,0 +1,5 @@
+﻿CREATE OR REPLACE VIEW testing_newcommit AS SELECT acme_address.client_identifier AS client_identifier, acme_address.street AS street, acme_address.city AS city, acme_address.zip AS zip, acme_address.state AS state, acme_address.primary_phone AS primary_phone, acme_address.country AS country FROM acme_address;
+
+ALTER VIEW testing_newcommit
+ LAYOUT (acme_address = [20, 20, 200, 165]);
+
