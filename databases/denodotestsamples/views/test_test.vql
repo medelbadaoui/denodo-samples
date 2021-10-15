@@ -1,0 +1,5 @@
+﻿CREATE OR REPLACE VIEW test_test AS SELECT sakila_customer.customer_id AS customer_id, sakila_customer.store_id AS store_id, sakila_customer.first_name AS first_name, sakila_customer.last_name AS last_name, sakila_customer.email AS email, sakila_customer.address_id AS address_id, sakila_customer.active AS active FROM sakila_customer;
+
+ALTER VIEW test_test
+ LAYOUT (sakila_customer = [20, 20, 200, 165]);
+
