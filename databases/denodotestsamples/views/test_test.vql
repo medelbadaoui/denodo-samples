@@ -1,5 +1,0 @@
-﻿CREATE OR REPLACE VIEW test_test AS SELECT sakila_inventory.inventory_id AS inventory_id, sakila_inventory.film_id AS film_id, sakila_inventory.store_id AS store_id FROM sakila_inventory;
-
-ALTER VIEW test_test
- LAYOUT (sakila_inventory = [20, 20, 200, 85]);
-
